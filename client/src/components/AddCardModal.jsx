@@ -6,6 +6,7 @@ const EMPTY_FORM = {
   position: "",
   jobLink: "",
   notes: "",
+  followUpDate: "",
 };
 
 const AddCardModal = ({ onClose, onSave, editCard }) => {
@@ -16,10 +17,10 @@ const AddCardModal = ({ onClose, onSave, editCard }) => {
   useEffect(() => {
     if (editCard) {
       setFormData({
-        company:  editCard.company  || "",
+        company: editCard.company || "",
         position: editCard.position || "",
-        jobLink:  editCard.jobLink  || "",
-        notes:    editCard.notes    || "",
+        jobLink: editCard.jobLink || "",
+        notes: editCard.notes || "",
       });
     }
   }, [editCard]);
@@ -94,6 +95,16 @@ const AddCardModal = ({ onClose, onSave, editCard }) => {
               type="url"
               placeholder="https://..."
               value={formData.jobLink}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="field">
+            <label htmlFor="followUpDate">Follow Up Date <span className="optional">(optional)</span></label>
+            <input
+              id="followUpDate"
+              name="followUpDate"
+              type="date"
+              value={formData.followUpDate}
               onChange={handleChange}
             />
           </div>

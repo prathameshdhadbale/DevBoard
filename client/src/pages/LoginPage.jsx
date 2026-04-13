@@ -1,8 +1,14 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { loginUser, registerUser } from "../api/auth";
 import "./LoginPage.css";
+
+
+
 
 const LoginPage = () => {
   const [isLogin, setIsLogin] = useState(true);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -23,11 +29,14 @@ const LoginPage = () => {
 
     try {
       // TODO: wire to auth.api.js
-      // const data = isLogin
-      //   ? await loginUser(formData.email, formData.password)
-      //   : await registerUser(formData.name, formData.email, formData.password);
-      // localStorage.setItem("token", data.token);
-      // navigate("/dashboard");
+      const data = isLogin
+        ? await loginUser(formData.email, formData.password)
+        : await registerUser(formData.name, formData.email, formData.password);
+      if (isLogin && data.token) {
+        localStorage.setItem("token", data.token);
+        navigate("/dashboard");
+
+      }
 
       console.log("Form submitted:", formData);
     } catch (err) {
