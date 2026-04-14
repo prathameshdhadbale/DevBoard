@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { loginUser, registerUser } from "../api/auth";
+import { loginUser, registerUser } from "../api/auth.api.js";
 import "./LoginPage.css";
 
 
@@ -35,7 +35,9 @@ const LoginPage = () => {
       if (isLogin && data.token) {
         localStorage.setItem("token", data.token);
         navigate("/dashboard");
-
+      } else {
+        setIsLogin(true);
+        setError("");
       }
 
       console.log("Form submitted:", formData);
