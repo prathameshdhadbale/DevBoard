@@ -491,3 +491,254 @@ body {
   margin-top: 5px;
   color: #d32f2f;
 }
+
+/* ═══════════════════════════════════════════════════════
+   RESPONSIVE — SMALL DESKTOP / TABLETS (≤ 1024px)
+   ═══════════════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .kanban {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .stats-bar {
+    flex-wrap: wrap;
+  }
+
+  .stat-card {
+    flex: 1 1 calc(33.33% - 10px);
+    min-width: 140px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   RESPONSIVE — TABLETS (≤ 768px)
+   ═══════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  /* ── NAVBAR ── */
+  .navbar {
+    padding: 0 16px;
+    height: auto;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  .navbar-right {
+    width: 100%;
+    justify-content: flex-end;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .navbar-user {
+    display: none;
+  }
+
+  .btn-primary,
+  .btn-ghost {
+    font-size: 12px;
+    padding: 7px 14px;
+  }
+
+  /* ── STATS ── */
+  .stats-bar {
+    padding: 16px 16px 0 16px;
+    gap: 10px;
+  }
+
+  .stat-card {
+    flex: 1 1 calc(50% - 6px);
+    min-width: 120px;
+    padding: 12px 16px;
+  }
+
+  .stat-value {
+    font-size: 24px;
+  }
+
+  /* ── BOARD HEADER ── */
+  .board-header {
+    padding: 18px 16px 10px 16px;
+  }
+
+  /* ── KANBAN — vertical stack ── */
+  .kanban {
+    padding: 0 16px 32px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .column {
+    min-width: unset;
+    width: 100%;
+  }
+
+  /* ── FOLLOW-UPS ── */
+  .followups-section {
+    margin: 14px 16px;
+    padding: 14px;
+  }
+
+  .followups-list {
+    flex-direction: column;
+  }
+
+  .followup-card {
+    min-width: unset;
+  }
+
+  /* ── CARD — always show actions (no hover on touch) ── */
+  .card-actions {
+    opacity: 1;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   RESPONSIVE — MOBILE (≤ 480px)
+   ═══════════════════════════════════════════════════════ */
+@media (max-width: 480px) {
+  /* ── NAVBAR ── */
+  .navbar {
+    padding: 10px 12px;
+  }
+
+  .navbar-logo {
+    font-size: 18px;
+  }
+
+  .navbar-right {
+    gap: 6px;
+  }
+
+  .btn-primary {
+    font-size: 11px;
+    padding: 6px 12px;
+    border-radius: 6px;
+  }
+
+  .btn-ghost {
+    font-size: 11px;
+    padding: 6px 10px;
+    border-radius: 6px;
+  }
+
+  /* ── STATS — single column ── */
+  .stats-bar {
+    padding: 12px 12px 0 12px;
+    gap: 8px;
+  }
+
+  .stat-card {
+    flex: 1 1 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    gap: 6px;
+  }
+
+  .stat-value {
+    font-size: 22px;
+    order: 2;
+    margin-left: auto;
+  }
+
+  .stat-label {
+    order: 1;
+  }
+
+  .stat-sub {
+    display: none;
+  }
+
+  /* ── BOARD HEADER ── */
+  .board-header {
+    padding: 14px 12px 8px 12px;
+  }
+
+  .board-title {
+    font-size: 17px;
+  }
+
+  .board-subtitle {
+    font-size: 11px;
+  }
+
+  /* ── KANBAN ── */
+  .kanban {
+    padding: 0 12px 24px 12px;
+    gap: 10px;
+  }
+
+  .column {
+    min-width: unset;
+  }
+
+  .col-header {
+    padding: 10px 12px 8px 12px;
+  }
+
+  .col-body {
+    padding: 8px;
+    gap: 8px;
+    min-height: 60px;
+  }
+
+  .card {
+    padding: 10px;
+    border-radius: 8px;
+  }
+
+  .card-company {
+    font-size: 12px;
+  }
+
+  .card-role {
+    font-size: 11px;
+    margin-bottom: 6px;
+  }
+
+  .card-note {
+    font-size: 10px;
+    padding-top: 6px;
+    margin-bottom: 6px;
+  }
+
+  .card-meta {
+    margin-top: 6px;
+  }
+
+  .card-date {
+    font-size: 10px;
+  }
+
+  .add-card-btn {
+    padding: 7px;
+    font-size: 11px;
+  }
+
+  /* ── FOLLOW-UPS ── */
+  .followups-section {
+    margin: 10px 12px;
+    padding: 12px;
+  }
+
+  .followups-header {
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+
+  .followup-company {
+    font-size: 13px;
+  }
+
+  .followup-role {
+    font-size: 12px;
+  }
+
+  .followup-date {
+    font-size: 11px;
+  }
+}
