@@ -167,7 +167,7 @@ const DashboardPage = () => {
         <div className="stat-card">
           <span className="stat-label">Rejected</span>
           <span className="stat-value">{stats.rejected}</span>
-          <span className="stat-sub">keep going 💪</span>
+          <span className="stat-sub">keep going </span>
         </div>
       </div>
 
@@ -175,7 +175,7 @@ const DashboardPage = () => {
       {followups.length > 0 && (
         <div className="followups-section">
           <div className="followups-header">
-            🔔 Follow-ups Required
+            Follow-ups Required
           </div>
 
           <div className="followups-list">
@@ -186,7 +186,7 @@ const DashboardPage = () => {
 
                 {item.followup_date && (
                   <div className="followup-date">
-                    📅 {new Date(item.followup_date).toLocaleDateString("en-IN", {
+                    {new Date(item.followup_date).toLocaleDateString("en-IN", {
                       month: "short", day: "numeric", year: "numeric"
                     })}
                   </div>
