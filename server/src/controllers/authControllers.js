@@ -5,6 +5,8 @@ import jwt from "jsonwebtoken";
 
 export const registerUser = async (req, res) => {
     const { name, email, password } = req.body;
+    console.log("REGISTER API HIT");
+    console.log(req.body);
     try {
         const checkUser = await pool.query(
             `select 1 from users where email = $1 LIMIT 1`,
