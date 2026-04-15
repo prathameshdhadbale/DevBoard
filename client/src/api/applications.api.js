@@ -7,7 +7,7 @@ export const getApplications = async (token) => {
             "Authorization": `Bearer ${token}`
         }
     }
-    const url = "http://localhost:5000/api/applications";
+    const url = `${import.meta.env.VITE_API_URL}/api/applications`;
 
     const result = await fetch(url, options);
     const data = await result.json();
@@ -27,7 +27,7 @@ export const createApplication = async (card, token) => {
         },
         body: JSON.stringify(card)
     }
-    const url = "http://localhost:5000/api/applications";
+    const url = `${import.meta.env.VITE_API_URL}/api/applications`;
 
     const result = await fetch(url, options);
     const data = await result.json();
@@ -49,7 +49,7 @@ export const updateApplication = async (card, token) => {
         },
         body: JSON.stringify(card)
     }
-    const url = `http://localhost:5000/api/applications/${card.id}`;
+    const url = `${import.meta.env.VITE_API_URL}/api/applications/${card.id}`;
 
     const result = await fetch(url, options);
     const data = await result.json();
@@ -70,7 +70,7 @@ export const deleteApplication = async (id, token) => {
             "Authorization": `Bearer ${token}`
         }
     }
-    const url = `http://localhost:5000/api/applications/${id}`;
+    const url = `${import.meta.env.VITE_API_URL}/api/applications/${id}`;
 
     const result = await fetch(url, options);
     const data = await result.json();
@@ -90,7 +90,7 @@ export const getStats = async (token) => {
             "Authorization": `Bearer ${token}`
         }
     }
-    const url = "http://localhost:5000/api/applications/stats";
+    const url = `${import.meta.env.VITE_API_URL}/api/applications/stats`;
 
     const result = await fetch(url, options);
     const data = await result.json();
@@ -110,7 +110,7 @@ export const getFollowups = async (token) => {
             "Authorization": `Bearer ${token}`
         }
     }
-    const url = "http://localhost:5000/api/applications/followups";
+    const url = `${import.meta.env.VITE_API_URL}/api/applications/followups`;
 
     const result = await fetch(url, options);
     const data = await result.json();
