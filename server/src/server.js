@@ -13,11 +13,11 @@ import applicationRoutes from "./routes/applicationRoutes.js";
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(cors({
-    origin: "devboard-git-main-prathameshs-projects-a170c6b9.vercel.app",
-    credentials: true
-}));
-
+// app.use(cors({
+//     origin: "https://devboard-git-main-prathameshs-projects-a170c6b9.vercel.app",
+//     credentials: true
+// }));
+app.use(cors());
 app.use(express.json());
 
 app.use('/api/auth', authRoutes);
