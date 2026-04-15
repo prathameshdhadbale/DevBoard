@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUser, registerUser } from "../api/auth.api.js";
+import { useAuth } from "../context/AuthContext.jsx";
 import "./LoginPage.css";
 
 
@@ -9,6 +10,7 @@ import "./LoginPage.css";
 const LoginPage = () => {
   const [isLogin, setIsLogin] = useState(true);
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -33,7 +35,7 @@ const LoginPage = () => {
         ? await loginUser(formData.email, formData.password)
         : await registerUser(formData.name, formData.email, formData.password);
       if (isLogin && data.token) {
-        localStorage.setItem("token", data.token);
+        login(data.token);
         navigate("/dashboard");
       } else {
         setIsLogin(true);

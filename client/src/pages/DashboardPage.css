@@ -25,7 +25,11 @@
   --rejected-bg: #f5e3e3;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 body {
   font-family: 'DM Sans', sans-serif;
@@ -33,7 +37,9 @@ body {
   color: var(--text);
 }
 
-.dashboard { min-height: 100vh; }
+.dashboard {
+  min-height: 100vh;
+}
 
 /* ── NAVBAR ── */
 .navbar {
@@ -91,7 +97,9 @@ body {
   transition: background 0.15s;
 }
 
-.btn-primary:hover { background: #2d2620; }
+.btn-primary:hover {
+  background: #2d2620;
+}
 
 .btn-ghost {
   font-family: 'DM Sans', sans-serif;
@@ -106,7 +114,9 @@ body {
   transition: background 0.15s;
 }
 
-.btn-ghost:hover { background: var(--surface2); }
+.btn-ghost:hover {
+  background: var(--surface2);
+}
 
 /* ── STATS BAR ── */
 .stats-bar {
@@ -139,7 +149,9 @@ body {
   text-transform: uppercase;
 }
 
-.stat-card.highlight .stat-label { color: #ffffff66; }
+.stat-card.highlight .stat-label {
+  color: #ffffff66;
+}
 
 .stat-value {
   font-family: 'Instrument Serif', serif;
@@ -148,7 +160,9 @@ body {
   line-height: 1;
 }
 
-.stat-card.highlight .stat-value { color: #ffffff; }
+.stat-card.highlight .stat-value {
+  color: #ffffff;
+}
 
 .stat-sub {
   font-size: 11px;
@@ -156,7 +170,9 @@ body {
   margin-top: 1px;
 }
 
-.stat-card.highlight .stat-sub { color: #ffffff55; }
+.stat-card.highlight .stat-sub {
+  color: #ffffff55;
+}
 
 /* ── BOARD HEADER ── */
 .board-header {
@@ -224,25 +240,70 @@ body {
 }
 
 /* column-specific colors */
-.col-applied .col-dot    { background: var(--applied-color); }
-.col-applied .col-title  { color: var(--applied-color); }
-.col-applied .col-count  { background: var(--applied-bg); color: var(--applied-color); }
+.col-applied .col-dot {
+  background: var(--applied-color);
+}
 
-.col-interview .col-dot    { background: var(--interview-color); }
-.col-interview .col-title  { color: var(--interview-color); }
-.col-interview .col-count  { background: var(--interview-bg); color: var(--interview-color); }
+.col-applied .col-title {
+  color: var(--applied-color);
+}
 
-.col-assignment .col-dot    { background: var(--assignment-color); }
-.col-assignment .col-title  { color: var(--assignment-color); }
-.col-assignment .col-count  { background: var(--assignment-bg); color: var(--assignment-color); }
+.col-applied .col-count {
+  background: var(--applied-bg);
+  color: var(--applied-color);
+}
 
-.col-offer .col-dot    { background: var(--offer-color); }
-.col-offer .col-title  { color: var(--offer-color); }
-.col-offer .col-count  { background: var(--offer-bg); color: var(--offer-color); }
+.col-interview .col-dot {
+  background: var(--interview-color);
+}
 
-.col-rejected .col-dot    { background: var(--rejected-color); }
-.col-rejected .col-title  { color: var(--rejected-color); }
-.col-rejected .col-count  { background: var(--rejected-bg); color: var(--rejected-color); }
+.col-interview .col-title {
+  color: var(--interview-color);
+}
+
+.col-interview .col-count {
+  background: var(--interview-bg);
+  color: var(--interview-color);
+}
+
+.col-assignment .col-dot {
+  background: var(--assignment-color);
+}
+
+.col-assignment .col-title {
+  color: var(--assignment-color);
+}
+
+.col-assignment .col-count {
+  background: var(--assignment-bg);
+  color: var(--assignment-color);
+}
+
+.col-offer .col-dot {
+  background: var(--offer-color);
+}
+
+.col-offer .col-title {
+  color: var(--offer-color);
+}
+
+.col-offer .col-count {
+  background: var(--offer-bg);
+  color: var(--offer-color);
+}
+
+.col-rejected .col-dot {
+  background: var(--rejected-color);
+}
+
+.col-rejected .col-title {
+  color: var(--rejected-color);
+}
+
+.col-rejected .col-count {
+  background: var(--rejected-bg);
+  color: var(--rejected-color);
+}
 
 /* ── COL BODY ── */
 .col-body {
@@ -302,7 +363,9 @@ body {
   margin-bottom: 6px;
 }
 
-.card-link:hover { text-decoration: underline; }
+.card-link:hover {
+  text-decoration: underline;
+}
 
 .card-note {
   font-size: 11px;
@@ -333,7 +396,9 @@ body {
   transition: opacity 0.15s;
 }
 
-.card:hover .card-actions { opacity: 1; }
+.card:hover .card-actions {
+  opacity: 1;
+}
 
 .card-btn {
   width: 24px;
@@ -350,7 +415,10 @@ body {
   transition: all 0.12s;
 }
 
-.card-btn:hover { background: var(--border); color: var(--text); }
+.card-btn:hover {
+  background: var(--border);
+  color: var(--text);
+}
 
 .card-btn.delete:hover {
   background: var(--rejected-bg);
@@ -375,4 +443,51 @@ body {
 .add-card-btn:hover {
   background: var(--surface);
   color: var(--text2);
+}
+
+
+
+
+/* follow up  */
+
+.followups-section {
+  margin: 20px;
+  padding: 16px;
+  border-radius: 12px;
+  background: #fff8e1;
+  border: 1px solid #ffe082;
+}
+
+.followups-header {
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.followups-list {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.followup-card {
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+  min-width: 180px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.followup-company {
+  font-weight: 600;
+}
+
+.followup-role {
+  font-size: 14px;
+  color: #555;
+}
+
+.followup-date {
+  font-size: 12px;
+  margin-top: 5px;
+  color: #d32f2f;
 }

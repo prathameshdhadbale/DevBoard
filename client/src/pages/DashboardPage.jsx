@@ -1,7 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import AddCardModal from "../components/AddCardModal";
 import "./DashboardPage.css";
+import { getApplications, createApplication, updateApplication, deleteApplication, getStats, getFollowups } from "../api/applications.api.js";
+import { useAuth } from "../context/AuthContext.jsx";
+import { useNavigate } from "react-router-dom";
+
 
 const COLUMNS = [
   { id: "applied", label: "Applied" },
@@ -11,74 +15,82 @@ const COLUMNS = [
   { id: "rejected", label: "Rejected" },
 ];
 
-// Dummy data — replace with real API data later
-const INITIAL_CARDS = [
-  { id: "1", company: "Razorpay", position: "Frontend Engineer Intern", status: "applied", date: "Apr 8, 2025", notes: "", jobLink: "https://razorpay.com" },
-  { id: "2", company: "CRED", position: "Full Stack Intern", status: "applied", date: "Apr 10, 2025", notes: "Applied via LinkedIn. Referral from senior.", jobLink: "" },
-  { id: "3", company: "Groww", position: "React Developer Intern", status: "interview", date: "Mar 28, 2025", notes: "Round 1 scheduled Apr 15.", jobLink: "" },
-  { id: "4", company: "Postman", position: "Backend Intern", status: "interview", date: "Apr 2, 2025", notes: "", jobLink: "" },
-  { id: "5", company: "Khatabook", position: "SWE Intern", status: "assignment", date: "Apr 1, 2025", notes: "Build a REST API in 48hrs. Due Apr 13.", jobLink: "" },
-  { id: "6", company: "Wingman", position: "Frontend Intern", status: "offer", date: "Mar 20, 2025", notes: "₹25k/mo. Accepting by Apr 20.", jobLink: "" },
-  { id: "7", company: "Flipkart", position: "SDE Intern", status: "rejected", date: "Mar 10, 2025", notes: "", jobLink: "" },
-  { id: "8", company: "Meesho", position: "Full Stack Intern", status: "rejected", date: "Mar 14, 2025", notes: "", jobLink: "" },
-];
 
 const DashboardPage = () => {
-  const [cards, setCards] = useState(INITIAL_CARDS);
+  const { token, logout } = useAuth();
+  const navigate = useNavigate();
+  const [followups, setFollowups] = useState([]);
+
+  const fetchstats = async () => {
+    const stats = await getStats(token);
+    setStats(stats);
+  }
+
+  const fetchFollowups = async () => {
+    const data = await getFollowups(token);
+    setFollowups(data);
+  };
+
+  const [cards, setCards] = useState([]);
+  useEffect(() => {
+    const fetchdata = async () => {
+      const data = await getApplications(token);
+      setCards(data);
+    }
+    fetchdata();
+    fetchFollowups();
+  }, []);
+
   const [showModal, setShowModal] = useState(false);
   const [editCard, setEditCard] = useState(null);
 
   // ── STATS ──
-  const stats = {
-    total: cards.length,
-    active: cards.filter(c => !["rejected", "offer"].includes(c.status)).length,
-    interviews: cards.filter(c => c.status === "interview").length,
-    offers: cards.filter(c => c.status === "offer").length,
-    rejected: cards.filter(c => c.status === "rejected").length,
-  };
-
-  const responseRate = stats.total > 0
-    ? Math.round((stats.interviews / stats.total) * 100)
-    : 0;
+  const [stats, setStats] = useState({
+    total: 0, active: 0, interviews: 0, offers: 0, rejected: 0, responseRate: 0
+  });
+  useEffect(() => {
+    fetchstats();
+  }, []);
 
   // ── DRAG END ──
-  const onDragEnd = (result) => {
+  const onDragEnd = async (result) => {
     const { destination, source, draggableId } = result;
     if (!destination) return;
     if (destination.droppableId === source.droppableId && destination.index === source.index) return;
 
     const newStatus = destination.droppableId;
 
+
     setCards(prev =>
       prev.map(card =>
-        card.id === draggableId ? { ...card, status: newStatus } : card
+        String(card.id) === draggableId ? { ...card, status: newStatus } : card
       )
     );
 
+    const card = cards.find(c => String(c.id) === draggableId);
+    await updateApplication({ ...card, status: newStatus }, token);
+    await fetchstats();
+    await fetchFollowups();
     // TODO: call updateStatus API
-    // await updateApplicationStatus(draggableId, newStatus);
   };
 
   // ── ADD CARD ──
-  const handleAddCard = (newCard) => {
-    const card = {
-      ...newCard,
-      id: Date.now().toString(),
-      date: new Date().toLocaleDateString("en-IN", { month: "short", day: "numeric", year: "numeric" }),
-      status: "applied",
-    };
-    setCards(prev => [...prev, card]);
+  const handleAddCard = async (newCard) => {
+    const created = await createApplication(newCard, token);
+    setCards(prev => [...prev, created]);
+    await fetchstats();
+    await fetchFollowups();
     setShowModal(false);
-
-    // TODO: call createApplication API
-    // await createApplication(card);
   };
 
   // ── EDIT CARD ──
-  const handleEditCard = (updatedCard) => {
+  const handleEditCard = async (updatedCard) => {
+    const updated = await updateApplication(updatedCard, token);
     setCards(prev =>
-      prev.map(c => c.id === updatedCard.id ? updatedCard : c)
+      prev.map(c => c.id === updated.id ? updated : c)
     );
+    await fetchstats();
+    await fetchFollowups();
     setEditCard(null);
     setShowModal(false);
 
@@ -87,9 +99,11 @@ const DashboardPage = () => {
   };
 
   // ── DELETE CARD ──
-  const handleDeleteCard = (cardId) => {
+  const handleDeleteCard = async (cardId) => {
+    await deleteApplication(cardId, token);
     setCards(prev => prev.filter(c => c.id !== cardId));
-
+    await fetchstats();
+    await fetchFollowups();
     // TODO: call deleteApplication API
     // await deleteApplication(cardId);
   };
@@ -105,9 +119,9 @@ const DashboardPage = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    logout();
     // TODO: navigate to login
-    // navigate("/login");
+    navigate("/login");
   };
 
   return (
@@ -120,7 +134,7 @@ const DashboardPage = () => {
           DevBoard
         </div>
         <div className="navbar-right">
-          <span className="navbar-user">Hi, Aadik 👋</span>
+          <span className="navbar-user">Hello 👋</span>
           <button className="btn-ghost" onClick={handleLogout}>Logout</button>
           <button className="btn-primary" onClick={() => setShowModal(true)}>+ Add Application</button>
         </div>
@@ -141,7 +155,7 @@ const DashboardPage = () => {
         <div className="stat-card">
           <span className="stat-label">Interviews</span>
           <span className="stat-value">{stats.interviews}</span>
-          <span className="stat-sub">response rate {responseRate}%</span>
+          <span className="stat-sub">response rate {stats.responseRate}%</span>
         </div>
         <div className="stat-card">
           <span className="stat-label">Offers</span>
@@ -156,6 +170,32 @@ const DashboardPage = () => {
           <span className="stat-sub">keep going 💪</span>
         </div>
       </div>
+
+      {/* ── FOLLOW-UPS ── */}
+      {followups.length > 0 && (
+        <div className="followups-section">
+          <div className="followups-header">
+            🔔 Follow-ups Required
+          </div>
+
+          <div className="followups-list">
+            {followups.map((item) => (
+              <div key={item.id} className="followup-card">
+                <div className="followup-company">{item.company}</div>
+                <div className="followup-role">{item.position}</div>
+
+                {item.followup_date && (
+                  <div className="followup-date">
+                    📅 {new Date(item.followup_date).toLocaleDateString("en-IN", {
+                      month: "short", day: "numeric", year: "numeric"
+                    })}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* ── BOARD HEADER ── */}
       <div className="board-header">
@@ -188,7 +228,7 @@ const DashboardPage = () => {
                       {...provided.droppableProps}
                     >
                       {colCards.map((card, index) => (
-                        <Draggable key={card.id} draggableId={card.id} index={index}>
+                        <Draggable key={String(card.id)} draggableId={String(card.id)} index={index}>
                           {(provided, snapshot) => (
                             <div
                               className={`card ${snapshot.isDragging ? "dragging" : ""}`}
@@ -198,10 +238,10 @@ const DashboardPage = () => {
                             >
                               <div className="card-company">{card.company}</div>
                               <div className="card-role">{card.position}</div>
-                              {card.jobLink && (
+                              {card.job_link && (
                                 <a
                                   className="card-link"
-                                  href={card.jobLink}
+                                  href={card.job_link}
                                   target="_blank"
                                   rel="noreferrer"
                                 >
@@ -212,7 +252,11 @@ const DashboardPage = () => {
                                 <div className="card-note">{card.notes}</div>
                               )}
                               <div className="card-meta">
-                                <span className="card-date">{card.date}</span>
+                                <span className="card-date">
+                                  {new Date(card.created_at).toLocaleDateString("en-IN", {
+                                    month: "short", day: "numeric", year: "numeric"
+                                  })}
+                                </span>
                                 <div className="card-actions">
                                   <button
                                     className="card-btn"

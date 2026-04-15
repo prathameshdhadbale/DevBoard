@@ -4,9 +4,9 @@ import "./AddCardModal.css";
 const EMPTY_FORM = {
   company: "",
   position: "",
-  jobLink: "",
+  job_link: "",
   notes: "",
-  followUpDate: "",
+  followup_date: "",
 };
 
 const AddCardModal = ({ onClose, onSave, editCard }) => {
@@ -19,8 +19,9 @@ const AddCardModal = ({ onClose, onSave, editCard }) => {
       setFormData({
         company: editCard.company || "",
         position: editCard.position || "",
-        jobLink: editCard.jobLink || "",
+        job_link: editCard.job_link || "",
         notes: editCard.notes || "",
+        followup_date: editCard.followup_date || "",
       });
     }
   }, [editCard]);
@@ -88,23 +89,23 @@ const AddCardModal = ({ onClose, onSave, editCard }) => {
           </div>
 
           <div className="field">
-            <label htmlFor="jobLink">Job Link <span className="optional">(optional)</span></label>
+            <label htmlFor="job_link">Job Link <span className="optional">(optional)</span></label>
             <input
-              id="jobLink"
-              name="jobLink"
+              id="job_link"
+              name="job_link"
               type="url"
               placeholder="https://..."
-              value={formData.jobLink}
+              value={formData.job_link}
               onChange={handleChange}
             />
           </div>
           <div className="field">
-            <label htmlFor="followUpDate">Follow Up Date <span className="optional">(optional)</span></label>
+            <label htmlFor="followup_date">Follow Up Date <span className="optional">(optional)</span></label>
             <input
-              id="followUpDate"
-              name="followUpDate"
+              id="followup_date"
+              name="followup_date"
               type="date"
-              value={formData.followUpDate}
+              value={formData.followup_date}
               onChange={handleChange}
             />
           </div>
